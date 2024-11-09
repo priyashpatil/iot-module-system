@@ -7,7 +7,7 @@ class SimulationConfig
     /**
      * Probability (%) of system failure during simulation
      */
-    public const FAILURE_PROBABILITY = 25;
+    public const FAILURE_PROBABILITY = 15;
 
     /**
      * Common failure scenarios with error codes
