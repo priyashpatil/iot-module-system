@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('status')->default('operational');
-            $table->timestamp('active_since')->nullable();
             $table->unsignedBigInteger('data_items_sent')->default(0);
+            $table->timestamp('started_at')->nullable();
             $table->timestamps();
 
             $table->index('status');

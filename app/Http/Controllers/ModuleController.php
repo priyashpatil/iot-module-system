@@ -26,7 +26,7 @@ class ModuleController extends Controller
         $module = Module::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'active_since' => Carbon::now()
+            'started_at' => Carbon::now()
         ]);
 
         foreach ($validated['sensors'] as $sensorData) {

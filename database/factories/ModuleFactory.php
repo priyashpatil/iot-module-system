@@ -16,7 +16,7 @@ class ModuleFactory extends Factory
             'name' => fake()->words(2, true),
             'description' => fake()->sentence(),
             'status' => fake()->randomElement(ModuleStatus::cases())->value,
-            'active_since' => fake()->dateTimeBetween('-1 year', 'now'),
+            'started_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'data_items_sent' => fake()->numberBetween(0, 1000000),
         ];
     }

@@ -15,12 +15,12 @@ class Module extends Model
         'name',
         'description',
         'status',
-        'active_since'
+        'started_at'
     ];
 
     protected $casts = [
         'status' => ModuleStatus::class,
-        'active_since' => 'datetime',
+        'started_at' => 'datetime',
     ];
 
     public function sensors(): HasMany
