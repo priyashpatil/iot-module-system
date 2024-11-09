@@ -21,7 +21,7 @@ class SensorReading extends Model
 
     protected $casts = [
         'value' => 'decimal:2',
-        'recorded_at' => 'datetime',
+        'recorded_at' => 'datetime:Y-m-d H:i:s',
     ];
 
     public function sensor(): BelongsTo
