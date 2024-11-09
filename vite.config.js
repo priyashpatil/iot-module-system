@@ -7,7 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.scss',
                 'resources/js/app.js',
-                'resources/js/charts.js'
+                'resources/js/module-poll.js'
             ],
             refresh: true,
         }),

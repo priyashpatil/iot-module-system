@@ -24,35 +24,38 @@
     <div class="row g-2 mb-3">
         <div class="col-md-4">
             <x-metric-card title="Status">
-                <span class="badge text-uppercase {{ $module->statusBadgeClass() }}">{{ $module->status }}</span>
+                <span id="refStatus"
+                    class="badge text-uppercase {{ $module->statusBadgeClass() }}">{{ $module->status }}</span>
             </x-metric-card>
         </div>
         <div class="col-md-4">
             <x-metric-card title="Operating Time">
-                @if ($module->active_since)
-                    {{ $module->active_since->diff(now())->format('%dd %hh %im') }}
-                @else
-                    N/A
-                @endif
+                <div id="refOperatingTime">
+                    @if ($module->active_since)
+                        {{ $module->active_since->diff(now())->format('%dd %hh %im') }}
+                    @else
+                        N/A
+                    @endif
+                </div>
             </x-metric-card>
         </div>
         <div class="col-md-4">
             <x-metric-card title="Metric Count">
-                {{ $module->data_items_sent }}
+                <div id="refMetricCount">{{ $module->data_items_sent }}</div>
             </x-metric-card>
         </div>
     </div>
 
     {{-- Stats Charts --}}
     <div class="small text-muted text-uppercase fw-semibold mb-2">Stats</div>
-    <div class="row g-3 mb-3">
+    <div class="row g-3 mb-3" id="statsChartContainer" data-module-id={{ $module->id }}>
         @forelse ($module->sensors as $sensor)
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-2">{{ $sensor->name }}</div>
-                        <canvas class="text-muted bg-light" id="myChart-{{ $loop->iteration }}"
-                            style="height: 200px;"></canvas>
+                        <canvas class="text-muted bg-light" id="sensorChart-{{ $sensor->id }}"
+                            style="height: 200px; width:100%;"></canvas>
                     </div>
                 </div>
             </div>
@@ -89,5 +92,5 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/charts.js'])
+    @vite(['resources/js/module-poll.js'])
 @endpush
