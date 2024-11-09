@@ -41,7 +41,7 @@
         </div>
         <div class="col-6 col-md-4">
             <x-metric-card title="Metric Count">
-                <div id="refMetricCount">{{ $module->data_items_sent }}</div>
+                <div id="refMetricCount">{{ $module->metric_count }}</div>
             </x-metric-card>
         </div>
     </div>

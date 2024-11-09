@@ -26,7 +26,7 @@ class ProcessModuleData implements ShouldQueue
         DB::transaction(function () {
             // Prepare readings data for upsert by mapping the input array
             // to the required database structure
-            $readingsToUpsert = collect($this->readings)->map(fn ($reading) => [
+            $readingsToUpsert = collect($this->readings)->map(fn($reading) => [
                 'sensor_id' => $reading['sensor_id'],
                 'module_id' => $this->moduleId,
                 'value' => $reading['value'],
@@ -54,7 +54,7 @@ class ProcessModuleData implements ShouldQueue
             // Update the module's status and total readings count
             Module::where('id', $this->moduleId)->update([
                 'status' => ModuleStatus::OPERATIONAL,
-                'data_items_sent' => $totalReadings,
+                'metric_count' => $totalReadings,
             ]);
         });
     }

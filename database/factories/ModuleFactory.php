@@ -48,10 +48,10 @@ class ModuleFactory extends Factory
         }
 
         return [
-            'name' => $productLine.' v'.fake()->numerify('#.#'),
-            'description' => $this->descriptions[$productLine].' (Serial: '.fake()->regexify('[A-Z]{2}[0-9]{6}').')',
+            'name' => $productLine . ' v' . fake()->numerify('#.#'),
+            'description' => $this->descriptions[$productLine] . ' (Serial: ' . fake()->regexify('[A-Z]{2}[0-9]{6}') . ')',
             'status' => $status,
-            'data_items_sent' => fake()->numberBetween(0, 1000000),
+            'metric_count' => fake()->numberBetween(0, 1000000),
             'started_at' => $startedAt,
             'stopped_at' => $stoppedAt,
         ];
