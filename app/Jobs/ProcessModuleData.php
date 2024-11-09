@@ -48,13 +48,10 @@ class ProcessModuleData implements ShouldQueue
                     ->update(['current_value' => $reading['value']]);
             });
 
-            // Calculate the total number of readings for this module
-            $totalReadings = SensorReading::where('module_id', $this->moduleId)->count();
-
             // Update the module's status and total readings count
             Module::where('id', $this->moduleId)->update([
                 'status' => ModuleStatus::OPERATIONAL,
-                'metric_count' => $totalReadings,
+                'metric_count' => SensorReading::where('module_id', $this->moduleId)->count()
             ]);
         });
     }

@@ -22,12 +22,6 @@ class ProcessModuleFailure implements ShouldQueue
     public function handle(): void
     {
         DB::transaction(function () {
-            // Update module status to MALFUNCTION
-            $module = Module::findOrFail($this->failure['module_id']);
-            $module->update([
-                'status' => ModuleStatus::MALFUNCTION,
-            ]);
-
             // Create module failure record
             ModuleFailure::create([
                 'module_id' => $this->failure['module_id'],
@@ -35,6 +29,13 @@ class ProcessModuleFailure implements ShouldQueue
                 'description' => $this->failure['description'],
                 'failure_at' => $this->failure['failure_at'],
             ]);
+
+            // Update module status to MALFUNCTION and increment failure count
+            Module::where('id', $this->failure['module_id'])
+                ->update([
+                    'status' => ModuleStatus::MALFUNCTION,
+                    'failure_count' => DB::raw('failure_count + 1')
+                ]);
         });
     }
 }

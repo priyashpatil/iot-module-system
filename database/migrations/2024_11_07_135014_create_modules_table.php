@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('status')->default('operational');
             $table->unsignedBigInteger('metric_count')->default(0);
+            $table->unsignedBigInteger('failure_count')->default(0);
             $table->timestamp('started_at')->nullable();
             $table->timestamp('stopped_at')->nullable();
             $table->timestamps();

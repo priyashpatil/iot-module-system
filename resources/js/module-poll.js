@@ -14,6 +14,7 @@ const refs = {
     status: document.querySelector('#refStatus'),
     operatingTime: document.querySelector('#refOperatingTime'),
     metricCount: document.querySelector('#refMetricCount'),
+    refFailureCount: document.querySelector('#refFailureCount'),
     failuresList: document.querySelector('#failuresList')
 };
 
@@ -24,6 +25,7 @@ const refs = {
  * @param {string} module.status_class - CSS class for styling the status badge
  * @param {string} module.operating_time - Module's operating time
  * @param {number} module.metric_count - Count of metrics
+ * @param {number} module.failure_count - Count of metrics
  * @param {Array} module.sensors - Array of sensor objects
  * @param {Array} module.failures - Array of failure log objects
  */
@@ -33,6 +35,7 @@ const setPageData = async (module) => {
     refs.status.className = `badge text-uppercase ${module.status_class}`;
     refs.operatingTime.textContent = module.operating_time;
     refs.metricCount.textContent = module.metric_count;
+    refs.refFailureCount.textContent = module.failure_count;
 
     // Update sensor charts and current values
     module.sensors.forEach(sensor => {

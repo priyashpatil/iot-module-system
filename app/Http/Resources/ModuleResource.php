@@ -32,6 +32,7 @@ class ModuleResource extends JsonResource
             'status_class' => $this->statusBadgeClass(),
             'operating_time' => $this->operatingTime(),
             'metric_count' => $this->metric_count,
+            'failure_count' => $this->failure_count,
 
             // Failures collection transformation
             'failures' => $this->failures->map(function ($failure) {

@@ -25,23 +25,28 @@
     </div>
 
     {{-- Metric Cards --}}
-    <div class="row g-2 mb-3">
-        <div class="col-6 col-md-4">
+    <div class="row g-3 mb-3">
+        <div class="col-6 col-md-3">
             <x-metric-card title="Status">
                 <span id="refStatus"
                     class="badge text-uppercase {{ $module->statusBadgeClass() }}">{{ $module->status }}</span>
             </x-metric-card>
         </div>
-        <div class="col-6 col-md-4">
+        <div class="col-6 col-md-3">
             <x-metric-card title="Operating Time">
                 <div id="refOperatingTime">
                     {{ $module->operatingTime() }}
                 </div>
             </x-metric-card>
         </div>
-        <div class="col-6 col-md-4">
+        <div class="col-6 col-md-3">
             <x-metric-card title="Metric Count">
                 <div id="refMetricCount">{{ $module->metric_count }}</div>
+            </x-metric-card>
+        </div>
+        <div class="col-6 col-md-3">
+            <x-metric-card title="Failure Count">
+                <div id="refFailureCount">{{ $module->failure_count }}</div>
             </x-metric-card>
         </div>
     </div>

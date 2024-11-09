@@ -26,13 +26,20 @@ class ModuleSeeder extends Seeder
             ->each(function (Module $module) {
                 // If the module is malfunctioning, create failure records
                 if ($module->status === ModuleStatus::MALFUNCTION) {
+                    $failureCount = rand(3, 6);
+
                     // Create 3-6 failure records for this module
-                    ModuleFailure::factory(rand(3, 6))->create([
+                    ModuleFailure::factory($failureCount)->create([
                         'module_id' => $module->id,
                         // Set failure time to random point in last 5 days
                         'failure_at' => Carbon::now()
                             ->subDays(fake()->numberBetween(1, 5))
                             ->subHours(fake()->numberBetween(0, 23)),
+                    ]);
+
+                    // Update the failure count on the module
+                    $module->update([
+                        'failure_count' => $failureCount
                     ]);
                 }
             });
