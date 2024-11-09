@@ -11,7 +11,7 @@
     </nav>
 
     <div class="d-md-flex justify-content-between align-items-center mb-3 gap-2">
-        <div>
+        <div class="mb-2 md-md-0">
             <h1 class="mb-0">{{ $module->name }}</h1>
             <p class="mb-0 text-muted">{{ $module->description }}</p>
         </div>
@@ -22,13 +22,13 @@
 
     {{-- Metric Cards --}}
     <div class="row g-2 mb-3">
-        <div class="col-md-4">
+        <div class="col-6 col-md-4">
             <x-metric-card title="Status">
                 <span id="refStatus"
                     class="badge text-uppercase {{ $module->statusBadgeClass() }}">{{ $module->status }}</span>
             </x-metric-card>
         </div>
-        <div class="col-md-4">
+        <div class="col-6 col-md-4">
             <x-metric-card title="Operating Time">
                 <div id="refOperatingTime">
                     @if ($module->active_since)
@@ -39,7 +39,7 @@
                 </div>
             </x-metric-card>
         </div>
-        <div class="col-md-4">
+        <div class="col-6 col-md-4">
             <x-metric-card title="Metric Count">
                 <div id="refMetricCount">{{ $module->data_items_sent }}</div>
             </x-metric-card>
