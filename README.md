@@ -1,17 +1,19 @@
-# IOT Module System
+# IOT Module Monitoring System
 
-This document provides an overview and implementation details of the IoT Module System.
+This document provides an overview and implementation details of the IoT Module Monitoring System.
 
-## Local Development
+<p align="center">
+  <img src="public/screenshot.png" alt="IoT Module Dashboard Screenshot">
+</p>
 
-### Requirements
+## Requirements
 
 - PHP 8.3
 - Composer 2.7
 - Node 21
 - MySQL 8.0
 
-### Getting Started
+## Getting Started
 
 1. Clone the repository
 2. Install dependencies with `composer install` and `npm install`
@@ -21,7 +23,7 @@ This document provides an overview and implementation details of the IoT Module 
 6. Run `composer run dev` to start server, worker, pail and vite to build assets
 7. Optionally to run the module simulator, run `php artisan modules:simulate`
 
-### Module Simulation
+## Module Simulation
 
 The simulation behavior is controlled by the `SimulationConfig` class. Key configuration parameters include:
 
@@ -57,11 +59,11 @@ php artisan modules:simulate --interval=10
 
 The simulator will generate sensor readings and potential failures that are processed by the system's job queues. Press Ctrl+C to stop the simulation.
 
-### Model Structure
+## Model Structure
 
 The system uses the following models to represent and track IoT modules and their data:
 
-#### Module
+### Module
 
 The main model representing an IoT device/module with the following relationships:
 
@@ -71,7 +73,7 @@ The main model representing an IoT device/module with the following relationship
 - Tracks operational status via `ModuleStatus` enum (Operational, Malfunction, Deactivated)
 - Stores module start/stop times and calculates total operating duration
 
-#### Sensor
+### Sensor
 
 Represents individual sensors attached to modules:
 
@@ -80,7 +82,7 @@ Represents individual sensors attached to modules:
 - Tracks sensor name, measurement unit and current value
 - Common sensor types include temperature, pressure, rotation speed etc.
 
-#### SensorReading
+### SensorReading
 
 Historical time-series data from sensors:
 
@@ -89,7 +91,7 @@ Historical time-series data from sensors:
 - No auto-timestamps (uses recorded_at)
 - Values stored with 2 decimal precision
 
-#### ModuleFailure
+### ModuleFailure
 
 Records system failures and errors:
 
@@ -98,7 +100,7 @@ Records system failures and errors:
 - No auto-timestamps (uses failure_at)
 - Used for tracking reliability and maintenance needs
 
-#### Key Model Relationships
+### Key Model Relationships
 
 ```mermaid
 erDiagram
@@ -108,6 +110,6 @@ erDiagram
     Sensor ||--o{ SensorReading : generates
 ```
 
-### Bootstrap Setup
+## Bootstrap Setup
 
 Bootstrap 5 is integrated through SCSS in [`resources/css/app.scss`](/resources/css/app.scss) with modular imports for optimized bundle size. JavaScript components are loaded via [`resources/js/bootstrap.js`](/resources/js/bootstrap.js) and styles are compiled using Vite. Refer: <https://getbootstrap.com/docs/5.3/customize/sass/>
