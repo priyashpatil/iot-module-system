@@ -15,29 +15,36 @@ const updateData = async () => {
         const { data } = await axios.get(`/api/modules/${moduleId}`);
         const module = data.data;
 
-        // Update metrics
+        // Update metrics with new data
         refs.status.textContent = module.status;
-        refs.status.classList = `badge text-uppercase ${module.status_class}`;
+        refs.status.className = `badge text-uppercase ${module.status_class}`;
         refs.operatingTime.textContent = module.operating_time;
         refs.metricCount.textContent = module.metric_count;
 
-        // Update charts
+        // Clear and update charts with new data
         module.sensors.forEach(sensor => {
             const chart = document.getElementById(`sensorChart-${sensor.id}`)?.chart;
             if (!chart) return;
 
-            const labels = sensor.readings.map(r => r.timestamp);
-            const data = sensor.readings.map(r => r.value);
+            // Create new arrays for labels and data
+            const newLabels = [...sensor.readings.map(r => r.timestamp)];
+            const newData = [...sensor.readings.map(r => r.value)];
 
-            chart.data.labels = labels;
-            chart.data.datasets[0].data = data;
-            chart.update();
+            // Clear existing data
+            chart.data.labels.length = 0;
+            chart.data.datasets[0].data.length = 0;
+
+            // Push new data
+            chart.data.labels.push(...newLabels);
+            chart.data.datasets[0].data.push(...newData);
+
+            chart.update('none'); // Update without animation for better performance
         });
 
-        // Update failure logs
+        // Clear and update failure logs
         if (refs.failuresList) {
             const failures = module.failures || [];
-            refs.failuresList.innerHTML = failures.length ? failures.map(failure => `
+            const newFailuresHTML = failures.length ? failures.map(failure => `
                 <div class="list-group-item d-flex justify-content-between">
                     <div>
                         <h6 class="mb-0">${failure.description}</h6>
@@ -50,6 +57,11 @@ const updateData = async () => {
                     <p class="mb-0 text-muted">No failure logs found</p>
                 </div>
             `;
+
+            // Only update DOM if content has changed
+            if (refs.failuresList.innerHTML !== newFailuresHTML) {
+                refs.failuresList.innerHTML = newFailuresHTML;
+            }
         }
 
     } catch (err) {
@@ -69,12 +81,13 @@ const initCharts = (sensors) => {
                 labels: [],
                 datasets: [{
                     data: [],
-                    borderWidth: 1
+                    borderWidth: 1,
+                    tension: 0.5,
                 }]
             },
             options: {
                 plugins: { legend: { display: false } },
-                scales: { x: { display: false } }
+                scales: { x: { display: false, reverse: true } }
             }
         });
     });
@@ -89,4 +102,4 @@ const initCharts = (sensors) => {
     }
 })();
 
-setInterval(updateData, 3000);
+setInterval(updateData, 1300);
