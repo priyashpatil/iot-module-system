@@ -43,15 +43,16 @@
         </div>
     </div>
 
+    {{-- Stats Charts --}}
     <div class="small text-muted text-uppercase fw-semibold mb-2">Stats</div>
     <div class="row g-3 mb-3">
         @forelse ($module->sensors as $sensor)
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="mb-0">{{ $sensor->name }}</h5>
-                        <div class="text-muted mb-2">{{ $sensor->description }}</div>
-                        <div class="text-muted bg-light" style="height: 200px;">{{ $sensor->unit }}</div>
+                        <div class="mb-2">{{ $sensor->name }}</div>
+                        <canvas class="text-muted bg-light" id="myChart-{{ $loop->iteration }}"
+                            style="height: 200px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -66,6 +67,7 @@
         @endforelse
     </div>
 
+    {{-- Failure Logs --}}
     <div class="small text-muted text-uppercase fw-semibold mb-2">Failure Logs</div>
     <div class="list-group">
         @forelse ($module->failures()->latest('failure_at')->limit(10)->get() as $failure)
@@ -85,3 +87,7 @@
 
     <x-modals.add-sensor :moduleId='$module->id' />
 @endsection
+
+@push('scripts')
+    @vite(['resources/js/charts.js'])
+@endpush
