@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ModuleController extends Controller
 {
@@ -19,7 +20,10 @@ class ModuleController extends Controller
             'description' => 'required|string|max:255',
         ]);
 
-        Module::create($validated);
+        Module::create([
+            ...$validated,
+            'active_since' => Carbon::now()
+        ]);
 
         return redirect()->back()
             ->with(['alert' => [

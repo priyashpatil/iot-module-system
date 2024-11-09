@@ -15,6 +15,7 @@ class Module extends Model
         'name',
         'description',
         'status',
+        'active_since'
     ];
 
     protected $casts = [
