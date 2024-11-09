@@ -6,7 +6,8 @@ const moduleId = statsContainer.dataset.moduleId;
 const refs = {
     status: document.querySelector('#refStatus'),
     operatingTime: document.querySelector('#refOperatingTime'),
-    metricCount: document.querySelector('#refMetricCount')
+    metricCount: document.querySelector('#refMetricCount'),
+    failuresList: document.querySelector('#failuresList')
 };
 
 const updateData = async () => {
@@ -31,6 +32,24 @@ const updateData = async () => {
             chart.data.datasets[0].data = data;
             chart.update();
         });
+
+        // Update failure logs
+        if (refs.failuresList) {
+            const failures = module.failures || [];
+            refs.failuresList.innerHTML = failures.length ? failures.map(failure => `
+                <div class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <h6 class="mb-0">${failure.description}</h6>
+                        <small class="text-muted">Error Code: ${failure.error_code}</small>
+                    </div>
+                    <small>${failure.diff_for_humans}</small>
+                </div>
+            `).join('') : `
+                <div class="list-group-item text-center">
+                    <p class="mb-0 text-muted">No failure logs found</p>
+                </div>
+            `;
+        }
 
     } catch (err) {
         console.error('Error fetching module data:', err);

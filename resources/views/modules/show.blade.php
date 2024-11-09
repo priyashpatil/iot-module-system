@@ -72,7 +72,7 @@
 
     {{-- Failure Logs --}}
     <div class="small text-muted text-uppercase fw-semibold mb-2">Failure Logs</div>
-    <div class="list-group">
+    <div class="list-group" id="failuresList">
         @forelse ($module->failures()->latest('failure_at')->limit(10)->get() as $failure)
             <div class="list-group-item d-flex justify-content-between">
                 <div>

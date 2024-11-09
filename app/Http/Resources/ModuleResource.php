@@ -26,6 +26,7 @@ class ModuleResource extends JsonResource
                     'id' => $failure->id,
                     'description' => $failure->description,
                     'diff_for_humans' => $failure->failure_at->diffForHumans(),
+                    'error_code' => $failure->error_code,
                     'failure_at' => $failure->failure_at->format('Y-m-d H:i:s'),
                 ];
             }),
