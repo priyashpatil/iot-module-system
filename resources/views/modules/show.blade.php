@@ -17,7 +17,7 @@
         </div>
 
         <div class="flex-shrink-0"><button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                data-bs-target="#addSensorModal">Add Sensor</button></div>
+                data-bs-target="#addSensorModal"><x-icons.plus size="18" /> Add Sensor</button></div>
     </div>
 
     {{-- Metric Cards --}}
@@ -47,7 +47,8 @@
     </div>
 
     {{-- Stats Charts --}}
-    <div class="small text-muted text-uppercase fw-semibold mb-2">Stats</div>
+    <div class="small text-muted text-uppercase fw-semibold mb-2">Stats <span class="text-capitalize"
+            style="font-size: 12px;">(Showing Recent 60)</span></div>
     <div class="row g-3 mb-3" id="statsChartContainer" data-module-id={{ $module->id }}>
         @forelse ($module->sensors as $sensor)
             <div class="col-md-6">

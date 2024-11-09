@@ -91,7 +91,7 @@
             </div>
             <div class="col-2">
                 <button type="button" class="btn btn-sm btn-danger" onclick="removeSensor(this)">
-                    Remove
+                    <x-icons.trash size="18" />
                 </button>
             </div>
         </div>

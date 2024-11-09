@@ -10,7 +10,7 @@
         </div>
 
         <div class="flex-shrink-0"><button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                data-bs-target="#addModuleModal">Add Module</button></div>
+                data-bs-target="#addModuleModal"><x-icons.plus size="18" /> Add Module</button></div>
     </div>
 
     <div class="list-group mb-3">
