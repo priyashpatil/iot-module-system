@@ -21,6 +21,10 @@
         <x-alert />
         @yield('content')
     </div>
+
+    <div class="container small text-muted my-3">
+        <footer>&copy; {{ date('Y') }} IOT Modules System</footer>
+    </div>
 </body>
 
 </html>

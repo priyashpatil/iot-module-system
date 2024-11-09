@@ -21,7 +21,7 @@
     </div>
 
     {{-- Metric Cards --}}
-    <div class="row g-2">
+    <div class="row g-2 mb-3">
         <div class="col-md-4">
             <x-metric-card title="Status">
                 <span class="badge text-uppercase {{ $module->statusBadgeClass() }}">{{ $module->status }}</span>
@@ -43,16 +43,15 @@
         </div>
     </div>
 
-    <hr>
-
-    <div class="row g-2">
+    <div class="small text-muted text-uppercase fw-semibold mb-2">Stats</div>
+    <div class="row g-3 mb-3">
         @forelse ($module->sensors as $sensor)
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="mb-0">{{ $sensor->name }}</h5>
-                        <p class="text-muted">{{ $sensor->description }}</p>
-                        <p class="text-muted">{{ $sensor->unit }}</p>
+                        <div class="text-muted mb-2">{{ $sensor->description }}</div>
+                        <div class="text-muted bg-light" style="height: 200px;">{{ $sensor->unit }}</div>
                     </div>
                 </div>
             </div>
@@ -65,7 +64,23 @@
                 </div>
             </div>
         @endforelse
+    </div>
 
+    <div class="small text-muted text-uppercase fw-semibold mb-2">Failure Logs</div>
+    <div class="list-group">
+        @forelse ($module->failures()->latest('failure_at')->limit(10)->get() as $failure)
+            <div class="list-group-item d-flex justify-content-between">
+                <div>
+                    <h6 class="mb-0">{{ $failure->description }}</h6>
+                    <small class="text-muted">Error Code: {{ $failure->error_code }}</small>
+                </div>
+                <small>{{ $failure->failure_at->diffForHumans() }}</small>
+            </div>
+        @empty
+            <div class="list-group-item text-center">
+                <p class="mb-0 text-muted">No failure logs found</p>
+            </div>
+        @endforelse
     </div>
 
     <x-modals.add-sensor :moduleId='$module->id' />
