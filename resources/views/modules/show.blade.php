@@ -52,6 +52,7 @@
                     <div class="card-body">
                         <h5 class="mb-0">{{ $sensor->name }}</h5>
                         <p class="text-muted">{{ $sensor->description }}</p>
+                        <p class="text-muted">{{ $sensor->unit }}</p>
                     </div>
                 </div>
             </div>
@@ -67,5 +68,5 @@
 
     </div>
 
-    <x-modals.add-module />
+    <x-modals.add-sensor :moduleId='$module->id' />
 @endsection
