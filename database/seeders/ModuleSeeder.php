@@ -39,7 +39,7 @@ class ModuleSeeder extends Seeder
 
                     // Update the failure count on the module
                     $module->update([
-                        'failure_count' => $failureCount
+                        'failure_count' => $failureCount,
                     ]);
                 }
             });

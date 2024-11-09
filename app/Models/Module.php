@@ -6,6 +6,7 @@ use App\Enums\ModuleStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Module extends Model
 {
@@ -94,5 +95,19 @@ class Module extends Model
         return $this->started_at
             ? now()->diff($this->started_at)->format('%dd %hh %im %Ss')
             : 'N/A';
+    }
+
+    /**
+     * Clear the cached data for a specific module.
+     *
+     * This method removes both the transformed data and raw data
+     * from the cache for the specified module ID.
+     *
+     * @param  int|string  $moduleId  The ID of the module whose cache should be cleared
+     */
+    public static function clearCache($moduleId): void
+    {
+        Cache::forget("module_{$moduleId}_transformed");
+        Cache::forget("module_{$moduleId}_data");
     }
 }
