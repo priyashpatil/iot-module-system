@@ -73,7 +73,9 @@
     </div>
 
     {{-- Failure Logs --}}
-    <div class="small text-muted text-uppercase fw-semibold mb-2">Failure Logs</div>
+    <div class="small text-muted text-uppercase fw-semibold mb-2">
+        Failure Logs <span class="text-capitalize" style="font-size: 12px;">(Showing Recent 10)</span>
+    </div>
     <div class="list-group" id="failuresList">
         @forelse ($module->failures()->latest('failure_at')->limit(10)->get() as $failure)
             <div class="list-group-item d-flex justify-content-between">
