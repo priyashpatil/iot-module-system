@@ -15,7 +15,7 @@
 
     <div class="list-group mb-3">
         @foreach ($modules as $module)
-            <a href="#" class="list-group-item list-group-item-action">
+            <a href="{{ route('modules.show', $module->id) }}" class="list-group-item list-group-item-action">
                 <x-module-list-item :module="$module" />
             </a>
         @endforeach

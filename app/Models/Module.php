@@ -41,7 +41,7 @@ class Module extends Model
         return match ($this->status) {
             ModuleStatus::OPERATIONAL => 'text-bg-success',
             ModuleStatus::MALFUNCTION => 'text-bg-danger',
-            ModuleStatus::DEACTIVATED => 'text-bg-secondary',
+            ModuleStatus::DEACTIVATED => 'text-bg-warning',
             default => 'text-bg-light'
         };
     }
