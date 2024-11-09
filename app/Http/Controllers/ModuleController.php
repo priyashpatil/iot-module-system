@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ModuleStatus;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -41,5 +42,33 @@ class ModuleController extends Controller
                 'message' => 'Module Created Successfully',
                 'type' => 'success',
             ]], 201);
+    }
+
+    public function activate(Module $module)
+    {
+        $module->update([
+            'status' => ModuleStatus::OPERATIONAL,
+            'started_at' => Carbon::now(),
+        ]);
+
+        return redirect()->route('modules.show', $module->id)
+            ->with(['alert' => [
+                'message' => 'Module Activated Successfully',
+                'type' => 'success',
+            ]], 200);
+    }
+
+    public function deactivate(Module $module)
+    {
+        $module->update([
+            'status' => ModuleStatus::DEACTIVATED,
+            'stopped_at' => Carbon::now(),
+        ]);
+
+        return redirect()->route('modules.show', $module->id)
+            ->with(['alert' => [
+                'message' => 'Module Deactivated Successfully',
+                'type' => 'success',
+            ]], 200);
     }
 }

@@ -20,7 +20,7 @@ class ModuleResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
             'status_class' => $this->statusBadgeClass(),
-            'operating_time' => $this->started_at ? $this->started_at->diff(now())->format('%dd %hh %im %Ss') : 'N/A',
+            'operating_time' => $this->operatingTime(),
             'metric_count' => $this->data_items_sent,
             'failures' => $this->failures->map(function ($failure) {
                 return [

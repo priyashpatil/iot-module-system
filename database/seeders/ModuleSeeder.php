@@ -13,13 +13,6 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         Module::factory(20)
-            ->sequence(fn ($sequence) => [
-                'status' => match (true) {
-                    $sequence->index < 15 => ModuleStatus::OPERATIONAL->value,
-                    $sequence->index < 18 => ModuleStatus::MALFUNCTION->value,
-                    default => ModuleStatus::DEACTIVATED->value,
-                },
-            ])
             ->create()
             ->each(function (Module $module) {
                 if ($module->status === ModuleStatus::MALFUNCTION) {
