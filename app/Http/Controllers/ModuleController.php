@@ -44,30 +44,18 @@ class ModuleController extends Controller
             ]], 201);
     }
 
-    public function activate(Module $module)
+    public function toggle(Module $module)
     {
+        $isActivating = $module->status !== ModuleStatus::OPERATIONAL;
+
         $module->update([
-            'status' => ModuleStatus::OPERATIONAL,
-            'started_at' => Carbon::now(),
+            'status' => $isActivating ? ModuleStatus::OPERATIONAL : ModuleStatus::DEACTIVATED,
+            $isActivating ? 'started_at' : 'stopped_at' => Carbon::now(),
         ]);
 
         return redirect()->route('modules.show', $module->id)
             ->with(['alert' => [
-                'message' => 'Module Activated Successfully',
-                'type' => 'success',
-            ]], 200);
-    }
-
-    public function deactivate(Module $module)
-    {
-        $module->update([
-            'status' => ModuleStatus::DEACTIVATED,
-            'stopped_at' => Carbon::now(),
-        ]);
-
-        return redirect()->route('modules.show', $module->id)
-            ->with(['alert' => [
-                'message' => 'Module Deactivated Successfully',
+                'message' => $isActivating ? 'Module Activated Successfully' : 'Module Deactivated Successfully',
                 'type' => 'success',
             ]], 200);
     }

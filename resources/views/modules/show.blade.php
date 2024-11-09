@@ -17,23 +17,7 @@
         </div>
 
         <div class="flex-shrink-0">
-            @if ($module->status->value === 'operational')
-                <form action="{{ route('modules.deactivate', $module) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('PUT')
-                    <button type="submit" class="btn btn-warning">
-                        <x-icons.pause size="18" /> Deactivate Module
-                    </button>
-                </form>
-            @else
-                <form action="{{ route('modules.activate', $module) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('PUT')
-                    <button type="submit" class="btn btn-success">
-                        <x-icons.play size="18" /> Activate Module
-                    </button>
-                </form>
-            @endif
+            <x-module-toggle :module='$module' />
 
             <button class="btn btn-primary ms-1" type="button" data-bs-toggle="modal"
                 data-bs-target="#addSensorModal"><x-icons.plus size="18" /> Add Sensor</button>
