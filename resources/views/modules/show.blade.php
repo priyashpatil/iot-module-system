@@ -32,7 +32,7 @@
             <x-metric-card title="Operating Time">
                 <div id="refOperatingTime">
                     @if ($module->active_since)
-                        {{ $module->active_since->diff(now())->format('%dd %hh %im') }}
+                        {{ $module->active_since->diff(now())->format('%dd %hh %im %Ss') }}
                     @else
                         N/A
                     @endif

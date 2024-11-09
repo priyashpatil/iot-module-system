@@ -2,6 +2,8 @@
 
 namespace App\Simulation;
 
+use Illuminate\Support\Carbon;
+
 class SensorReadingSimulator
 {
     /**
@@ -11,7 +13,7 @@ class SensorReadingSimulator
     {
         return [
             'value' => self::generateRealisticValue($unit),
-            'recorded_at' => self::generateRandomRecordingDate(),
+            'recorded_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ];
     }
 
@@ -21,20 +23,12 @@ class SensorReadingSimulator
     public static function generateRealisticValue(string $unit): float
     {
         return match ($unit) {
-            '°C' => fake()->randomFloat(2, -10, 120),    // Temperature range
-            'bar' => fake()->randomFloat(2, 0, 10),      // Pressure range
-            'rpm' => fake()->randomFloat(2, 0, 5000),    // Motor speed range
-            'kW' => fake()->randomFloat(2, 0, 500),      // Power range
-            '%' => fake()->randomFloat(2, 0, 100),       // Percentage range
-            default => fake()->randomFloat(2, 0, 100),   // Default range
+            '°C' => round(rand(-1000, 12000) / 100, 2),    // Temperature range (-10 to 120)
+            'bar' => round(rand(0, 1000) / 100, 2),        // Pressure range (0 to 10)
+            'rpm' => round(rand(0, 500000) / 100, 2),      // Motor speed range (0 to 5000)
+            'kW' => round(rand(0, 50000) / 100, 2),        // Power range (0 to 500)
+            '%' => round(rand(0, 10000) / 100, 2),         // Percentage range (0 to 100)
+            default => round(rand(0, 10000) / 100, 2),     // Default range (0 to 100)
         };
-    }
-
-    /**
-     * Generate a random recording date within the last 30 days
-     */
-    private static function generateRandomRecordingDate(): string
-    {
-        return fake()->dateTimeBetween('-30 days', 'now')->format('Y-m-d H:i:s');
     }
 }

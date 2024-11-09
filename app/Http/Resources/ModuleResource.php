@@ -19,7 +19,8 @@ class ModuleResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'status' => $this->status,
-            'operating_time' => $this->active_since ? $this->active_since->diff(now())->format('%dd %hh %im') : 'N/A',
+            'status_class' => $this->statusBadgeClass(),
+            'operating_time' => $this->active_since ? $this->active_since->diff(now())->format('%dd %hh %im %Ss') : 'N/A',
             'metric_count' => $this->data_items_sent,
             'failures' => $this->failures->map(function ($failure) {
                 return [

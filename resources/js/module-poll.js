@@ -17,6 +17,7 @@ const updateData = async () => {
 
         // Update metrics
         refs.status.textContent = module.status;
+        refs.status.classList = `badge text-uppercase ${module.status_class}`;
         refs.operatingTime.textContent = module.operating_time;
         refs.metricCount.textContent = module.metric_count;
 
@@ -88,4 +89,4 @@ const initCharts = (sensors) => {
     }
 })();
 
-setInterval(updateData, 1300);
+setInterval(updateData, 3000);

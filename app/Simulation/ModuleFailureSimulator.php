@@ -2,6 +2,8 @@
 
 namespace App\Simulation;
 
+use Illuminate\Support\Carbon;
+
 class ModuleFailureSimulator
 {
     /**
@@ -14,7 +16,7 @@ class ModuleFailureSimulator
         return [
             'error_code' => $errorCode,
             'description' => self::getErrorCodeDescription($errorCode),
-            'failure_at' => self::generateRandomFailureDate(),
+            'failure_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ];
     }
 
@@ -24,13 +26,5 @@ class ModuleFailureSimulator
     private static function getErrorCodeDescription(string $errorCode): string
     {
         return SimulationConfig::FAILURE_SCENARIOS[$errorCode][array_rand(SimulationConfig::FAILURE_SCENARIOS[$errorCode])];
-    }
-
-    /**
-     * Generate a random failure date within the last 30 days
-     */
-    private static function generateRandomFailureDate(): \DateTime
-    {
-        return fake()->dateTimeBetween('-30 days', 'now');
     }
 }
