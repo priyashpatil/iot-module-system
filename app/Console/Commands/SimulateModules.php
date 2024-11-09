@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\ModuleStatus;
 use App\Jobs\ProcessModuleData;
 use App\Jobs\ProcessModuleFailure;
 use App\Models\Module;
@@ -43,7 +44,7 @@ class SimulateModules extends Command
         $moduleIds = $this->option('modules');
 
         // Load modules to simulate
-        $query = Module::with('sensors');
+        $query = Module::with('sensors')->where('status', '!=', ModuleStatus::DEACTIVATED->value);
         if (! empty($moduleIds)) {
             $query->whereIn('id', $moduleIds);
         }
@@ -51,20 +52,20 @@ class SimulateModules extends Command
         $modules = $query->get();
 
         if ($modules->isEmpty()) {
-            $this->error('No modules found to simulate');
+            $this->error('No active modules found to simulate');
 
             return 1;
         }
 
         $simulator = new ModuleSimulator;
-        $modules->each(fn ($module) => $simulator->addModule($module));
+        $modules->each(fn($module) => $simulator->addModule($module));
 
         $this->info("Starting simulation for {$modules->count()} modules");
         $this->info('Press Ctrl+C to stop the simulation');
 
         // Infinite loop for continuous simulation
         while (true) {
-            $this->info('Simulating... '.now()->toDateTimeString());
+            $this->info('Simulating... ' . now()->toDateTimeString());
 
             $simulatedData = $simulator->simulate();
 
