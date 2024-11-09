@@ -56,3 +56,58 @@ php artisan modules:simulate --interval=10
 ```
 
 The simulator will generate sensor readings and potential failures that are processed by the system's job queues. Press Ctrl+C to stop the simulation.
+
+### Model Structure
+
+The system uses the following models to represent and track IoT modules and their data:
+
+#### Module
+
+The main model representing an IoT device/module with the following relationships:
+
+- Has many `Sensor`s for collecting different types of data
+- Has many `SensorReading`s tracking historical sensor values
+- Has many `ModuleFailure`s recording any system failures
+- Tracks operational status via `ModuleStatus` enum (Operational, Malfunction, Deactivated)
+- Stores module start/stop times and calculates total operating duration
+
+#### Sensor
+
+Represents individual sensors attached to modules:
+
+- Belongs to a `Module`
+- Has many `SensorReading`s
+- Tracks sensor name, measurement unit and current value
+- Common sensor types include temperature, pressure, rotation speed etc.
+
+#### SensorReading
+
+Historical time-series data from sensors:
+
+- Belongs to both a `Sensor` and `Module`
+- Stores the measured value and timestamp
+- No auto-timestamps (uses recorded_at)
+- Values stored with 2 decimal precision
+
+#### ModuleFailure
+
+Records system failures and errors:
+
+- Belongs to a `Module`
+- Stores failure timestamp, description and error code
+- No auto-timestamps (uses failure_at)
+- Used for tracking reliability and maintenance needs
+
+#### Key Model Relationships
+
+```mermaid
+erDiagram
+    Module ||--o{ Sensor : has
+    Module ||--o{ ModuleFailure : records
+    Module ||--o{ SensorReading : stores
+    Sensor ||--o{ SensorReading : generates
+```
+
+### Bootstrap Setup
+
+Bootstrap 5 is integrated through SCSS in [`resources/css/app.scss`](/resources/css/app.scss) with modular imports for optimized bundle size. JavaScript components are loaded via [`resources/js/bootstrap.js`](/resources/js/bootstrap.js) and styles are compiled using Vite. Refer: <https://getbootstrap.com/docs/5.3/customize/sass/>
