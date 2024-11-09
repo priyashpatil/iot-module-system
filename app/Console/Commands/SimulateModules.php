@@ -10,12 +10,33 @@ use Illuminate\Console\Command;
 
 class SimulateModules extends Command
 {
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
     protected $signature = 'modules:simulate
                           {--interval=5 : Interval between simulations in seconds}
                           {--modules=* : Specific module IDs to simulate}';
 
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Simulate module operation and sensor readings';
 
+    /**
+     * Execute the console command.
+     *
+     * This method:
+     * 1. Loads the specified modules (or all modules if none specified)
+     * 2. Initializes the simulator
+     * 3. Runs continuous simulation at specified intervals
+     * 4. Processes generated sensor readings and failures
+     *
+     * @return int Command exit code (0: success, 1: failure)
+     */
     public function handle(): int
     {
         $interval = $this->option('interval');
@@ -41,6 +62,7 @@ class SimulateModules extends Command
         $this->info("Starting simulation for {$modules->count()} modules");
         $this->info('Press Ctrl+C to stop the simulation');
 
+        // Infinite loop for continuous simulation
         while (true) {
             $this->info('Simulating... '.now()->toDateTimeString());
 
@@ -57,7 +79,7 @@ class SimulateModules extends Command
                 }
             }
 
-            // Process failures
+            // Process any failures that occurred during simulation
             if (! empty($simulatedData['failures'])) {
                 foreach ($simulatedData['failures'] as $failure) {
                     ProcessModuleFailure::dispatch($failure);

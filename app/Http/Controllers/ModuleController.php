@@ -4,36 +4,48 @@ namespace App\Http\Controllers;
 
 use App\Enums\ModuleStatus;
 use App\Models\Module;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\View\View;
 
 class ModuleController extends Controller
 {
-    public function show(Module $module)
+    /**
+     * Display the specified module
+     *
+     * @param  Module  $module  The module instance to show
+     */
+    public function show(Module $module): View
     {
         return view('modules.show', compact('module'));
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created module in database
+     *
+     * @param  Request  $request  The incoming request containing module data
+     */
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'sensors' => 'required|array|min:1',
             'sensors.*.name' => 'required|string|max:255',
-            'sensors.*.unit' => 'required|string|max:50'
+            'sensors.*.unit' => 'required|string|max:50',
         ]);
 
         $module = Module::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'started_at' => Carbon::now()
+            'started_at' => Carbon::now(),
         ]);
 
         foreach ($validated['sensors'] as $sensorData) {
             $module->sensors()->create([
                 'name' => $sensorData['name'],
-                'unit' => $sensorData['unit']
+                'unit' => $sensorData['unit'],
             ]);
         }
 
@@ -44,7 +56,12 @@ class ModuleController extends Controller
             ]], 201);
     }
 
-    public function toggle(Module $module)
+    /**
+     * Toggle the operational status of the specified module
+     *
+     * @param  Module  $module  The module instance to toggle
+     */
+    public function toggle(Module $module): RedirectResponse
     {
         $isActivating = $module->status !== ModuleStatus::OPERATIONAL;
 

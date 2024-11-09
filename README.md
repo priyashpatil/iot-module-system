@@ -23,7 +23,26 @@ This document provides an overview and implementation details of the IoT Module 
 
 ### Module Simulation
 
-The system includes a module simulator for testing and development purposes. To run the simulator:
+The simulation behavior is controlled by the `SimulationConfig` class. Key configuration parameters include:
+
+- **Failure Probability**: 15% chance of module failure during simulation
+- **Sensor Types**: Configurable sensor types including:
+  - Temperature (-10°C to 120°C)
+  - Pressure (0-10 bar)
+  - Rotation (0-5000 rpm)
+  - Power (0-500 kW)
+  - Utilization (0-100%)
+
+- **Failure Scenarios**: Pre-defined error scenarios categorized by error codes:
+  - E001: Sensor communication failures
+  - E002: Power-related failures
+  - E003: System calibration errors
+  - E004: Memory/buffer errors
+  - E005: Network connectivity issues
+
+To modify simulation parameters, update the constants in `app/Simulation/SimulationConfig.php`.
+
+To run the simulator:
 
 ```bash
 # Simulate all modules with 5 second interval (default)

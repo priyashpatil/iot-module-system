@@ -14,9 +14,6 @@ class ProcessModuleData implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(
         private int $moduleId,
         private array $readings
@@ -24,13 +21,11 @@ class ProcessModuleData implements ShouldQueue
         //
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         DB::transaction(function () {
-            // Prepare readings data for upsert
+            // Prepare readings data for upsert by mapping the input array
+            // to the required database structure
             $readingsToUpsert = collect($this->readings)->map(fn ($reading) => [
                 'sensor_id' => $reading['sensor_id'],
                 'module_id' => $this->moduleId,
@@ -38,22 +33,25 @@ class ProcessModuleData implements ShouldQueue
                 'recorded_at' => $reading['recorded_at'],
             ])->toArray();
 
-            // Upsert all sensor readings
+            // Upsert all sensor readings using a composite unique key
+            // Updates only the 'value' field if a record already exists
             SensorReading::upsert(
                 $readingsToUpsert,
-                ['sensor_id', 'module_id', 'recorded_at'],
-                ['value']
+                ['sensor_id', 'module_id', 'recorded_at'], // Composite unique key
+                ['value'] // Fields to update if record exists
             );
 
-            // Update current value for each sensor
+            // Update the current value for each sensor
+            // This keeps track of the most recent reading for quick access
             collect($this->readings)->each(function ($reading) {
                 Sensor::where('id', $reading['sensor_id'])
                     ->update(['current_value' => $reading['value']]);
             });
 
-            // Update module status and data_items_sent
+            // Calculate the total number of readings for this module
             $totalReadings = SensorReading::where('module_id', $this->moduleId)->count();
 
+            // Update the module's status and total readings count
             Module::where('id', $this->moduleId)->update([
                 'status' => ModuleStatus::OPERATIONAL,
                 'data_items_sent' => $totalReadings,
