@@ -59,7 +59,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <div class="mb-2">{{ $sensor->name }} <span
+                        <div class="mb-2">{{ $sensor->name }} <span class="fw-bold"
                                 id="sensorCurrentValue-{{ $sensor->id }}">({{ $sensor->current_value ?? 'NA' }}
                                 {{ $sensor->unit }})</span></div>
                         <canvas class="text-muted bg-light" id="sensorChart-{{ $sensor->id }}"
