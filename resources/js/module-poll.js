@@ -23,6 +23,11 @@ const updateData = async () => {
 
         // Clear and update charts with new data
         module.sensors.forEach(sensor => {
+            const currentValueElement = document.getElementById(`sensorCurrentValue-${sensor.id}`);
+            if (currentValueElement) {
+                currentValueElement.textContent = `(${sensor.current_value} ${sensor.unit})`;
+            }
+
             const chart = document.getElementById(`sensorChart-${sensor.id}`)?.chart;
             if (!chart) return;
 

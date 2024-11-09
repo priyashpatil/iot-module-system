@@ -36,6 +36,7 @@ class ModuleResource extends JsonResource
                     'id' => $sensor->id,
                     'name' => $sensor->name,
                     'unit' => $sensor->unit,
+                    'current_value' => $sensor->current_value,
                     'readings' => $sensor->readings->map(function ($reading) {
                         return [
                             'value' => $reading->value,

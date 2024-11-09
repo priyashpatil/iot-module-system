@@ -53,7 +53,9 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <div class="mb-2">{{ $sensor->name }}</div>
+                        <div class="mb-2">{{ $sensor->name }} <span
+                                id="sensorCurrentValue-{{ $sensor->id }}">({{ $sensor->current_value }}
+                                {{ $sensor->unit }})</span></div>
                         <canvas class="text-muted bg-light" id="sensorChart-{{ $sensor->id }}"
                             style="height: 200px; width:100%;"></canvas>
                     </div>
