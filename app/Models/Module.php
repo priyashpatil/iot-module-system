@@ -9,14 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Module extends Model
 {
-    /** @use HasFactory<\Database\Factories\ModuleFactory> */
     use HasFactory;
 
     protected $fillable = [
         'name',
         'description',
-        'status',
-        'data_items_sent',
     ];
 
     protected $casts = [

@@ -12,7 +12,7 @@ class SensorFactory extends Factory
     {
         return [
             ...self::random(),
-            'module_id' => Module::factory()
+            'module_id' => Module::factory(),
         ];
     }
 

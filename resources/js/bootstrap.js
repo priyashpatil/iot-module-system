@@ -1,4 +1,4 @@
-import { Dropdown, Modal } from 'bootstrap';
+import { Dropdown, Modal, Alert } from 'bootstrap';
 import axios from 'axios';
 
 window.axios = axios;

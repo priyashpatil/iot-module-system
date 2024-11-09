@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Sensor extends Model
 {
-    /** @use HasFactory<\Database\Factories\SensorFactory> */
     use HasFactory;
 
     protected $fillable = [

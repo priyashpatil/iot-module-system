@@ -12,7 +12,7 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $modules = Module::paginate();
+        $modules = Module::latest()->paginate();
 
         return view('dashboard', compact('modules'));
     }

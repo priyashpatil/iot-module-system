@@ -23,7 +23,7 @@ class SensorReadingFactory extends Factory
      */
     public function forSensor(Sensor $sensor): self
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'sensor_id' => $sensor->id,
             'module_id' => $sensor->module_id,
             'value' => SensorReadingSimulator::generateRealisticValue($sensor->unit),
@@ -35,7 +35,7 @@ class SensorReadingFactory extends Factory
      */
     public function atTime(\DateTimeInterface $time): self
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'recorded_at' => $time->format('Y-m-d H:i:s'),
         ]);
     }
