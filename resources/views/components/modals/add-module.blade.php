@@ -29,6 +29,39 @@
                             </div>
                         @enderror
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Sensors<span class="text-danger">*</span></label>
+                        <div id="sensors-container">
+                            <div class="sensor-group mb-2">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <input type="text"
+                                            class="form-control @error('sensors.0.name') is-invalid @enderror"
+                                            name="sensors[0][name]" placeholder="Sensor name" required>
+                                        @error('sensors.0.name')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="text"
+                                            class="form-control @error('sensors.0.unit') is-invalid @enderror"
+                                            name="sensors[0][unit]" placeholder="Unit" required>
+                                        @error('sensors.0.unit')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="addSensor()">
+                            Add Sensor
+                        </button>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -38,3 +71,36 @@
         </div>
     </div>
 </div>
+
+<script>
+    let sensorCount = 1;
+
+    function addSensor() {
+        const container = document.getElementById('sensors-container');
+        const newSensor = document.createElement('div');
+        newSensor.classList.add('sensor-group', 'mb-2');
+        newSensor.innerHTML = `
+        <div class="row">
+            <div class="col-5">
+                <input type="text" class="form-control" name="sensors[${sensorCount}][name]"
+                    placeholder="Sensor name" required>
+            </div>
+            <div class="col-5">
+                <input type="text" class="form-control" name="sensors[${sensorCount}][unit]"
+                    placeholder="Unit" required>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-sm btn-danger" onclick="removeSensor(this)">
+                    Remove
+                </button>
+            </div>
+        </div>
+    `;
+        container.appendChild(newSensor);
+        sensorCount++;
+    }
+
+    function removeSensor(button) {
+        button.closest('.sensor-group').remove();
+    }
+</script>

@@ -18,14 +18,25 @@ class ModuleController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
+            'sensors' => 'required|array|min:1',
+            'sensors.*.name' => 'required|string|max:255',
+            'sensors.*.unit' => 'required|string|max:50'
         ]);
 
-        Module::create([
-            ...$validated,
+        $module = Module::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
             'active_since' => Carbon::now()
         ]);
 
-        return redirect()->back()
+        foreach ($validated['sensors'] as $sensorData) {
+            $module->sensors()->create([
+                'name' => $sensorData['name'],
+                'unit' => $sensorData['unit']
+            ]);
+        }
+
+        return redirect()->route('modules.show', $module->id)
             ->with(['alert' => [
                 'message' => 'Module Created Successfully',
                 'type' => 'success',
