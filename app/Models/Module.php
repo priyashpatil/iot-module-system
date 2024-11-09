@@ -38,4 +38,14 @@ class Module extends Model
     {
         return $this->hasMany(ModuleFailure::class);
     }
+
+    public function statusBadgeClass(): string
+    {
+        return match ($this->status) {
+            ModuleStatus::OPERATIONAL => 'text-bg-success',
+            ModuleStatus::MALFUNCTION => 'text-bg-danger',
+            ModuleStatus::DEACTIVATED => 'text-bg-secondary',
+            default => 'text-bg-light'
+        };
+    }
 }
