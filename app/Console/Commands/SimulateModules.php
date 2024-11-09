@@ -58,14 +58,14 @@ class SimulateModules extends Command
         }
 
         $simulator = new ModuleSimulator;
-        $modules->each(fn($module) => $simulator->addModule($module));
+        $modules->each(fn ($module) => $simulator->addModule($module));
 
         $this->info("Starting simulation for {$modules->count()} modules");
         $this->info('Press Ctrl+C to stop the simulation');
 
         // Infinite loop for continuous simulation
         while (true) {
-            $this->info('Simulating... ' . now()->toDateTimeString());
+            $this->info('Simulating... '.now()->toDateTimeString());
 
             $simulatedData = $simulator->simulate();
 
