@@ -30,14 +30,11 @@ class ProcessModuleFailure implements ShouldQueue
                 'failure_at' => $this->failure['failure_at'],
             ]);
 
-            // Update module status to MALFUNCTION and increment failure count
-            Module::where('id', $this->failure['module_id'])
-                ->update([
-                    'status' => ModuleStatus::MALFUNCTION,
-                    'failure_count' => DB::raw('failure_count + 1'),
-                ]);
-
-            Module::clearCache($this->failure['module_id']);
+            // Update the module status and increment the failure count
+            $module = Module::find($this->failure['module_id']);
+            $module->status = ModuleStatus::MALFUNCTION;
+            $module->failure_count = DB::raw('failure_count + 1');
+            $module->save(); // Note: Calling save triggers the observer to clear cache
         });
     }
 }

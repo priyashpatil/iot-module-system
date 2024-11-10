@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Enums\ModuleStatus;
+use App\Observers\ModuleObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Cache;
 
+#[ObservedBy([ModuleObserver::class])]
 class Module extends Model
 {
     use HasFactory;
@@ -89,25 +91,11 @@ class Module extends Model
         if ($this->status === ModuleStatus::DEACTIVATED && $this->started_at && $this->stopped_at) {
             $duration = $this->started_at->diff($this->stopped_at);
 
-            return $duration->format('%dd %hh %im %Ss');
+            return $duration->format('%dd %hh %im');
         }
 
         return $this->started_at
-            ? now()->diff($this->started_at)->format('%dd %hh %im %Ss')
+            ? now()->diff($this->started_at)->format('%dd %hh %im')
             : 'N/A';
-    }
-
-    /**
-     * Clear the cached data for a specific module.
-     *
-     * This method removes both the transformed data and raw data
-     * from the cache for the specified module ID.
-     *
-     * @param  int|string  $moduleId  The ID of the module whose cache should be cleared
-     */
-    public static function clearCache($moduleId): void
-    {
-        Cache::forget("module_{$moduleId}_transformed");
-        Cache::forget("module_{$moduleId}_data");
     }
 }

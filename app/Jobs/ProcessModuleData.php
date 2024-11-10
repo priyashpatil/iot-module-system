@@ -49,12 +49,10 @@ class ProcessModuleData implements ShouldQueue
             });
 
             // Update the module's status and total readings count
-            Module::where('id', $this->moduleId)->update([
-                'status' => ModuleStatus::OPERATIONAL,
-                'metric_count' => SensorReading::where('module_id', $this->moduleId)->count(),
-            ]);
-
-            Module::clearCache($this->moduleId);
+            $module = Module::find($this->moduleId);
+            $module->status = ModuleStatus::OPERATIONAL;
+            $module->metric_count = $module->metric_count + 1;
+            $module->save(); // Note: Calling save triggers the observer to clear cache
         });
     }
 }
