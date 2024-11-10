@@ -18,7 +18,8 @@ class SimulateModules extends Command
      */
     protected $signature = 'modules:simulate
                           {--interval=5 : Interval between simulations in seconds}
-                          {--modules=* : Specific module IDs to simulate}';
+                          {--modules=* : Specific module IDs to simulate}
+                          {--limit=100 : Maximum number of modules to simulate}';
 
     /**
      * The console command description.
@@ -42,6 +43,7 @@ class SimulateModules extends Command
     {
         $interval = $this->option('interval');
         $moduleIds = $this->option('modules');
+        $limit = $this->option('limit');
 
         // Load modules to simulate
         $query = Module::with('sensors')->where('status', '!=', ModuleStatus::DEACTIVATED->value);
@@ -49,7 +51,7 @@ class SimulateModules extends Command
             $query->whereIn('id', $moduleIds);
         }
 
-        $modules = $query->get();
+        $modules = $query->limit($limit)->get();
 
         if ($modules->isEmpty()) {
             $this->error('No active modules found to simulate');

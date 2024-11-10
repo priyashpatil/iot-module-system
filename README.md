@@ -27,6 +27,8 @@ This document provides an overview and implementation details of the IoT Module 
 
 The simulation behavior is controlled by the `SimulationConfig` class. Key configuration parameters include:
 
+> NOTE: Current implementation of simulator keeps the loaded modules in memory to simulate data for those module. So based on your system memory, you may want to limit the number of modules to simulate. The simulation is meant for local dev and testing purposes and not for load testing. But you can technically run the simulation on production or staging env as it doesn't depend on model factories.
+
 - **Failure Probability**: 15% chance of module failure during simulation
 - **Sensor Types**: Configurable sensor types including:
   - Temperature (-10°C to 120°C)
@@ -55,6 +57,9 @@ php artisan modules:simulate --modules=1 --modules=2
 
 # Change simulation interval (in seconds)
 php artisan modules:simulate --interval=10
+
+# Limit number of modules to simulate (default: 100)
+php artisan modules:simulate --limit=1000
 ```
 
 The simulator will generate sensor readings and potential failures that are processed by the system's job queues. Press Ctrl+C to stop the simulation.
