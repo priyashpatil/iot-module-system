@@ -63,16 +63,16 @@ class ModuleController extends Controller
      */
     public function toggle(Module $module): RedirectResponse
     {
-        $isActivating = $module->status !== ModuleStatus::OPERATIONAL;
+        $isDeactivated = $module->status === ModuleStatus::DEACTIVATED;
 
         $module->update([
-            'status' => $isActivating ? ModuleStatus::OPERATIONAL : ModuleStatus::DEACTIVATED,
-            $isActivating ? 'started_at' : 'stopped_at' => Carbon::now(),
+            'status' => $isDeactivated ? ModuleStatus::OPERATIONAL : ModuleStatus::DEACTIVATED,
+            $isDeactivated ? 'started_at' : 'stopped_at' => Carbon::now(),
         ]);
 
         return redirect()->route('modules.show', $module->id)
             ->with(['alert' => [
-                'message' => $isActivating ? 'Module Activated Successfully' : 'Module Deactivated Successfully',
+                'message' => $isDeactivated ? 'Module Activated Successfully' : 'Module Deactivated Successfully',
                 'type' => 'success',
             ]], 200);
     }
