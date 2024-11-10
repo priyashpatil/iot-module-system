@@ -52,8 +52,12 @@
     </div>
 
     {{-- Stats Charts --}}
-    <div class="small text-muted text-uppercase fw-semibold mb-2">Stats <span class="text-capitalize"
-            style="font-size: 12px;">(Showing Recent 60)</span></div>
+    <div class="d-flex justify-content-between align-content-center mb-2">
+        <div class="small text-muted text-uppercase fw-semibold">Stats <span class="text-capitalize"
+                style="font-size: 12px;">(Showing Recent 60)</span> </div>
+        <a href="{{ route('modules.metrics', $module->id) }}">View All Logs</a>
+    </div>
+
     <div class="row g-3 mb-3" id="statsChartContainer" data-module-id={{ $module->id }}>
         @forelse ($module->sensors as $sensor)
             <div class="col-md-6">
