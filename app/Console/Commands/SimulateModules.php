@@ -17,9 +17,10 @@ class SimulateModules extends Command
      * @var string
      */
     protected $signature = 'modules:simulate
-                          {--interval=5 : Interval between simulations in seconds}
                           {--modules=* : Specific module IDs to simulate}
-                          {--limit=100 : Maximum number of modules to simulate}';
+                          {--interval=5 : Interval between simulations in seconds}
+                          {--limit=100 : Maximum number of modules to simulate}
+                          {--failure=15 : Optional failure probability percentage}';
 
     /**
      * The console command description.
@@ -44,6 +45,7 @@ class SimulateModules extends Command
         $interval = $this->option('interval');
         $moduleIds = $this->option('modules');
         $limit = $this->option('limit');
+        $failureProbability = $this->option('failure');
 
         // Load modules to simulate
         $query = Module::with('sensors')->where('status', '!=', ModuleStatus::DEACTIVATED->value);
@@ -59,7 +61,7 @@ class SimulateModules extends Command
             return 1;
         }
 
-        $simulator = new ModuleSimulator;
+        $simulator = new ModuleSimulator($failureProbability);
         $modules->each(fn ($module) => $simulator->addModule($module));
 
         $this->info("Starting simulation for {$modules->count()} modules");

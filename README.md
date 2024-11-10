@@ -23,26 +23,11 @@ This document provides an overview and implementation details of the IoT Module 
 6. Run `composer run dev` to start server, worker, pail and vite to build assets
 7. Optionally to run the module simulator, run `php artisan modules:simulate`
 
-## Module Simulation
-
-The simulation behavior is controlled by the `SimulationConfig` class. Key configuration parameters include:
+## Local Module Simulation
 
 > NOTE: Current implementation of simulator keeps the loaded modules in memory to simulate data for those module. So based on your system memory, you may want to limit the number of modules to simulate. The simulation is meant for local dev and testing purposes and not for load testing. But you can technically run the simulation on production or staging env as it doesn't depend on model factories.
 
-- **Failure Probability**: 15% chance of module failure during simulation
-- **Sensor Types**: Configurable sensor types including:
-  - Temperature (-10°C to 120°C)
-  - Pressure (0-10 bar)
-  - Rotation (0-5000 rpm)
-  - Power (0-500 kW)
-  - Utilization (0-100%)
-
-- **Failure Scenarios**: Pre-defined error scenarios categorized by error codes:
-  - E001: Sensor communication failures
-  - E002: Power-related failures
-  - E003: System calibration errors
-  - E004: Memory/buffer errors
-  - E005: Network connectivity issues
+The simulation behavior is controlled by the `SimulationConfig` class and command options. Key configuration parameters include: `Sensor Types`, `Failure Scenarios`.
 
 To modify simulation parameters, update the constants in `app/Simulation/SimulationConfig.php`.
 
@@ -60,6 +45,12 @@ php artisan modules:simulate --interval=10
 
 # Limit number of modules to simulate (default: 100)
 php artisan modules:simulate --limit=1000
+
+# Override failure probability percentage (default: 15%)
+php artisan modules:simulate --failure=25
+
+# Disable failures
+php artisan modules:simulate --failure=0
 ```
 
 The simulator will generate sensor readings and potential failures that are processed by the system's job queues. Press Ctrl+C to stop the simulation.
@@ -104,16 +95,6 @@ Records system failures and errors:
 - Stores failure timestamp, description and error code
 - No auto-timestamps (uses failure_at)
 - Used for tracking reliability and maintenance needs
-
-### Key Model Relationships
-
-```mermaid
-erDiagram
-    Module ||--o{ Sensor : has
-    Module ||--o{ ModuleFailure : records
-    Module ||--o{ SensorReading : stores
-    Sensor ||--o{ SensorReading : generates
-```
 
 ## Bootstrap Setup
 

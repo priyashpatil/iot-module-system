@@ -10,9 +10,12 @@ class ModuleSimulator
 {
     private Collection $modules;
 
-    public function __construct()
+    private int $failureProbability;
+
+    public function __construct(int $failureProbability)
     {
         $this->modules = new Collection;
+        $this->failureProbability = $failureProbability;
     }
 
     /**
@@ -86,13 +89,13 @@ class ModuleSimulator
     /**
      * Determines if a module should experience a failure during simulation.
      *
-     * Uses the FAILURE_PROBABILITY constant from SimulationConfig to determine
+     * Uses the failure probability set in the constructor to determine
      * the likelihood of failure.
      *
      * @return bool True if the module should fail, false otherwise
      */
     private function shouldSimulateFailure(): bool
     {
-        return rand(1, 100) <= SimulationConfig::FAILURE_PROBABILITY;
+        return rand(1, 100) <= $this->failureProbability;
     }
 }
