@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $module->name . ' - IOT Modules System')
+@section('title', $module->name)
 
 @section('content')
     <nav aria-label="breadcrumb">

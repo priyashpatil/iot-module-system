@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'IOT Modules System')</title>
+    <title>@yield('title', 'Page') - IOT Monitoring System</title>
 
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
 </head>
@@ -13,7 +13,10 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand" href={{ route('dashboard') }}>IOT Modules System</a>
+            <a class="navbar-brand d-flex align-items-center gap-2" href={{ route('dashboard') }}>
+                <x-logo-mark />
+                IOT Monitoring System
+            </a>
         </div>
     </nav>
 

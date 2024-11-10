@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Welcome - IOT Modules System')
+@section('title', 'Dashboard')
 
 @section('content')
     <div class="d-md-flex justify-content-between align-items-center mb-3 gap-2">
