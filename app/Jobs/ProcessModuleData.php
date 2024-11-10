@@ -51,7 +51,7 @@ class ProcessModuleData implements ShouldQueue
             // Update the module's status and total readings count
             $module = Module::find($this->moduleId);
             $module->status = ModuleStatus::OPERATIONAL;
-            $module->metric_count = $module->metric_count + 1;
+            $module->metric_count = DB::raw('metric_count + '.count($this->readings));
             $module->save(); // Note: Calling save triggers the observer to clear cache
         });
     }
