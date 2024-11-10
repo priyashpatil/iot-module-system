@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ModuleLogsController extends Controller
 {
-    public function show(Request $request, Module $module)
+    public function metrics(Request $request, Module $module)
     {
         $sensors = $module->sensors()->get(['id', 'name']);
 
@@ -21,6 +21,15 @@ class ModuleLogsController extends Controller
             ->latest('recorded_at')
             ->paginate(50);
 
-        return view('modules.logs', compact('module', 'sensors', 'readings'));
+        return view('modules.metrics', compact('module', 'sensors', 'readings'));
+    }
+
+    public function failures(Request $request, Module $module)
+    {
+        $failures = $module->failures()
+            ->latest('failure_at')
+            ->paginate(50);
+
+        return view('modules.failures', compact('module', 'failures'));
     }
 }

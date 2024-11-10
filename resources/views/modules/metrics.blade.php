@@ -7,13 +7,13 @@
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="{{ route('modules.show', $module->id) }}">{{ $module->name }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Logs</li>
+            <li class="breadcrumb-item active" aria-current="page">Metrics</li>
         </ol>
     </nav>
 
     <div class="d-md-flex justify-content-between align-items-center mb-2 gap-2">
         <div class="mb-2 md-md-0">
-            <h1 class="mb-0">Module Logs: {{ $module->name }}</h1>
+            <h1 class="mb-0">Module Metrics: {{ $module->name }}</h1>
             <p class="mb-0 text-muted">{{ $module->description }}</p>
         </div>
     </div>

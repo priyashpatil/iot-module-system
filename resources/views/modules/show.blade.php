@@ -83,8 +83,11 @@
     </div>
 
     {{-- Failure Logs --}}
-    <div class="small text-muted text-uppercase fw-semibold mb-2">
-        Failure Logs <span class="text-capitalize" style="font-size: 12px;">(Showing Recent 10)</span>
+    <div class="d-flex justify-content-between align-content-center mb-3">
+        <div class="small text-muted text-uppercase fw-semibold">
+            Failure Logs <span class="text-capitalize" style="font-size: 12px;">(Showing Recent 10)</span>
+        </div>
+        <a href="{{ route('modules.failures', $module->id) }}">View All Logs</a>
     </div>
     <div class="list-group" id="failuresList">
         @forelse ($module->failures()->latest('failure_at')->limit(10)->get() as $failure)
