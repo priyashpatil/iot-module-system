@@ -48,7 +48,10 @@ class SimulateModules extends Command
         $failureProbability = $this->option('failure');
 
         // Load modules to simulate
-        $query = Module::with('sensors')->where('status', '!=', ModuleStatus::DEACTIVATED->value);
+        $query = Module::with(['sensors:id,module_id,unit'])
+            ->select(['id', 'status'])
+            ->where('status', '!=', ModuleStatus::DEACTIVATED->value);
+
         if (! empty($moduleIds)) {
             $query->whereIn('id', $moduleIds);
         }
